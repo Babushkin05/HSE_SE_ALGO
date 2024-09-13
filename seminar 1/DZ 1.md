@@ -58,4 +58,4 @@ $8,4,6,2,7,3,5,1$
 
 тогда 
 
-$T(N)=\sum^{log_2N}_1(\frac{N}{2^i}3\frac{2^{i-1}(2^{i-1}+1)}{4})\to\frac{3}{4}NlogN$
+$T(N)=\sum^{log_2N}_1(\frac{N}{2^i}3\frac{2^{i-1}(2^{i-1}+1)}{4})\to\sum^{log_2N}_1(N3\frac{2^{i-1}+1}{8})\to\frac{3}{8}\sum_1^{log_2N}2^{i-1}N\to\frac{3}{8}(N+2N+...+2^{log_2N-1}N)\to \frac{3}{8}N^2$
