@@ -1,17 +1,16 @@
-#include <stack>
+#include "stack.cpp"
+#include <utility>
 
-class Queue{
-    public:
-        void push(int elem);
-        int pop();
-        int& front();
-        int& back();
-        int currentMin();
+class Queue {
+public:
+  void push(int elem);
+  int pop();
+  int &front();
+  int &back();
+  int currentMin();
 
-    private:
-        std::stack<int> pushStack_;
-        std::stack<int> popStack_;
-        int min_ = INT_MAX;
-        void toPop_();
-        void toPush_();
+private:
+  Stack<std::pair<int, int> > pushStack_;
+  Stack<std::pair<int, int> > popStack_;
+  void toPop_();
 };

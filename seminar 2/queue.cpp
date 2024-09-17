@@ -1,45 +1,52 @@
-#include <stack>
 #include "queue.h"
+#include <stack>
 
-void Queue::toPop_(){
-    if(this->popStack_.empty()){
-        while(!this->pushStack_.empty()){
-            int tmp = this->pushStack_.top();
-            this->pushStack_.pop();
-            this->popStack_.push(tmp);
-            if(!this->pushStack_.empty()){
-                this->min_ = std::min(this->min_, tmp);
-            }
-        }
+void Queue::toPop_() {
+  if (this->popStack_.empty()) {
+    int minOfPopStack = INT_MAX;
+    while (!this->pushStack_.empty()) {
+      std::pair<int,int> tmp = this->pushStack_.top();
+      this->pushStack_.pop();
+      minOfPopStack = std::min(minOfPopStack,tmp.second);
+      this->popStack_.push(std::make_pair(tmp.first,minOfPopStack));
     }
+  }
 }
 
-void Queue::toPush_(){
-    if(this->pushStack_.empty()){
-        while(!this->popStack_.empty()){
-            int tmp = this->popStack_.top();
-            this->popStack_.pop();
-            this->pushStack_.push(tmp);
-            this->min_ = std::min(this->min_, tmp);
-        }
-    }
-}
-
-
-void Queue::push(int elem){
-    this->toPush_();
-    this->pushStack_.push(elem);
-    this->min_ = std::min(this->min_, elem);
+void Queue::push(int elem) {
+  if(this->pushStack_.empty()){
+    this->pushStack_.push(std::make_pair(elem,elem));
+  }
+  else{
+    this->pushStack_.push(std::make_pair(elem,std::min(elem,this->pushStack_.top().second)));
+  }
 }
 
 int Queue::pop() {
-    this->toPop_();
-    int tmp = this->popStack_.top();
-    this->popStack_.pop();
-    return tmp;
+  this->toPop_();
+  std::pair<int,int> tmp = this->popStack_.top();
+  this->popStack_.pop();
+  return tmp.first;
 }
 
-int& Queue::front() {
-
+int &Queue::front() {
+  this->toPop_();
+  return this->popStack_.top().first;
 }
 
+int &Queue::back() {
+  if(!this->pushStack_.empty()){
+    return this->pushStack_.top().first;
+  }
+  return this->popStack_.bottom().first;
+}
+
+int Queue::currentMin() {
+    int popMin = INT_MAX;
+    int pushMin = INT_MAX;
+    if(!this->popStack_.empty())
+        popMin = this->popStack_.top().second;
+    if(!this->pushStack_.empty())
+        pushMin = this->pushStack_.top().second;
+    return std::min(popMin,pushMin); 
+}
