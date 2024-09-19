@@ -137,18 +137,26 @@ bool List::check_cycle() const {
     Node* turtle = head;
     Node* rabbit = head;
     while(rabbit != tail){
-        
+        turtle = turtle->next;
+        rabbit = rabbit->next;
+        if(rabbit == tail)
+            break;
+        rabbit = rabbit->next;
+        if(rabbit == turtle)
+            return true;
     }
+    return false;
 }
 
 size_t List::size() const {
-    throw std::runtime_error("Not implemented!");
+    return _size;
 }
 
 bool List::empty() const{
-    throw std::runtime_error("Not implemented!");
+    return _size == 0;
 }
 
 void List::copy(const List& other) {
-    throw std::runtime_error("Not implemented!");
+    clear();
+    
 }
