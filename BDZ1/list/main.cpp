@@ -2,14 +2,27 @@
 #include "release.cpp"
 
 int main(){
-    std::vector<int> v{1,2,3,4,5};
-    List a{v};
-    Node* tmp = a.head;
-    for(size_t i = 0; i< a.size()-1;++i){
+    
+    List l{};
+    l.push_back(3);
+    l.push_back(4);
+    l.push_back(6);
+    l.push_back(3);
+    l.push_back(5);
+    l.push_back(6);
+
+    Node* tmp = l.head;
+    for(size_t i = 0; i< l.size();++i){
         std::cout<<tmp->value<<'\n';
         tmp = tmp->next;
     }
-    List b{a};
-    a.clear();
+    std::cout<<'\n';
+    l.remove_duplicates();
+    tmp = l.head;
+    for(size_t i = 0; i< l.size();++i){
+        std::cout<<tmp->value<<'\n';
+        tmp = tmp->next;
+    }
+
     return 0;
 }

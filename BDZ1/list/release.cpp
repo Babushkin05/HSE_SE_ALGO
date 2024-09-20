@@ -2,7 +2,9 @@
 #include <set>
 #include "list.h"
 
-List::List() : head{nullptr}, tail{nullptr}, _size{0} {
+List::List()  {
+    head = tail = nullptr;
+    _size = 0;
 }
 
 List::List(const List& other) : head{nullptr}, tail{nullptr}, _size{0}{
@@ -80,25 +82,39 @@ void List::insert(Node* pos, int value) {
 }
 
 void List::pop_front() {
-    head = head->next;
-    head->prev = nullptr;
-    --_size;
+    if(head != nullptr){
+        head = head->next;
+        if(head != nullptr)
+            head->prev = nullptr;
+        else
+            tail = nullptr;
+        --_size;
+    }
+    else{
+        throw std::runtime_error("Deleting in empty list");
+    }
 }
 
 void List::pop_back() {
-    if(tail->prev != nullptr){
+    if(tail != nullptr){
         tail = tail->prev;
-        tail->next = nullptr;
+        if(tail != nullptr)
+            tail->next = nullptr;
+        else
+            head = nullptr;
         --_size;
+    }
+    else{
+        throw std::runtime_error("Deleting in empty list");
     }
 }
 
 void List::erase(Node* pos) {
-    if(pos == nullptr || (pos->next == nullptr && pos->prev == nullptr && pos != head))
+    if(pos == nullptr)
         throw std::runtime_error("Incorrect position!");
-    if(pos->next == nullptr)
+    if(pos == tail)
         pop_back();
-    else if(pos->prev == nullptr)
+    else if(pos == head)
         pop_front();
     else{
         (pos->prev)->next = pos->next;
@@ -126,14 +142,15 @@ void List::reverse() {
 void List::remove_duplicates() {
     std::set<int> s;
     Node* tmp = head;
-    s.insert(tmp->value);
-    tmp = tmp->next;
-    for(size_t i = 0; i < _size - 1; ++i){
+    for(size_t i = 0; i < _size; ++i){
         if(s.count(tmp->value)){
             erase(tmp);
         }
         s.insert(tmp->value);
         tmp = tmp->next;
+    }
+    if(s.count(tmp->value)){
+        erase(tmp);
     }
 }
 
@@ -147,24 +164,41 @@ void List::replace(int old_value, int new_value) {
 }
 
 void List::merge(const List& other) {
-    tail->next = other.head;
-    other.head->prev = tail;
-    tail = other.tail;
-    _size+=other._size;
+    if(other.empty())
+        return;
+    if(empty())
+        copy(other);
+    else{
+        tail->next = other.head;
+        other.head->prev = tail;
+        tail = other.tail;
+        _size+=other._size;
+    }
 }
 
 bool List::check_cycle() const {
     Node* turtle = head;
     Node* rabbit = head;
     while(rabbit != tail){
-        turtle = turtle->next;
-        rabbit = rabbit->next;
-        if(rabbit == tail)
+        if(rabbit == nullptr or rabbit->next == nullptr)
             break;
-        rabbit = rabbit->next;
+        turtle = turtle->next;
+        rabbit = rabbit->next->next;
         if(rabbit == turtle)
             return true;
     }
+
+    turtle = tail;
+    rabbit = tail;
+    while(rabbit != head){
+        if(rabbit == nullptr or rabbit->prev == nullptr)
+            break;
+        turtle = turtle->prev;
+        rabbit = rabbit->prev->prev;
+        if(rabbit == turtle)
+            return true;
+    }
+
     return false;
 }
 
@@ -187,7 +221,6 @@ void List::copy(const List& other) {
     head = tail = head_;
     ++_size;
     for(size_t i = 1;i < other.size();++i){
-        std::cout<<tmp->value<<' ';
         push_back(tmp->next->value);
         tmp = tmp->next;
     }
