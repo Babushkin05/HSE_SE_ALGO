@@ -5,23 +5,31 @@
 List::List() : head{nullptr}, tail{nullptr}, _size{0} {
 }
 
-List::List(const List& other) : head{other.head}, tail{other.tail}, _size{other._size}{
+List::List(const List& other) : head{nullptr}, tail{nullptr}, _size{0}{
+    if(other.empty()){
+        return;
+    }
+    Node* tmp;
+    tmp = other.head;
+    Node* head_ = new Node(other.head->value);
+    head = tail = head_;
+    ++_size;
+    for(size_t i = 1;i < other.size();++i){
+        push_back(tmp->next->value);
+        tmp = tmp->next;
+    }
 }
 
-List::List(std::vector<int> array) : _size(array.size()) {
-    Node head_{array[0]};
-    head = &head_;
-    tail = &head_;
-    for(size_t i = 1; i < _size; ++i ){
+List::List(std::vector<int> array) : head{nullptr}, tail{nullptr}, _size(0) {
+    if(array.size() == 0){
+        return;
+    }
+    for(size_t i = 0; i < array.size(); ++i ){
         push_back(array[i]);
     }
 }
 
-List::~List() {
-    delete &_size;
-    delete head;
-    delete tail;
-}
+List::~List() = default;
 
 int List::front() {
     return head->value;
@@ -33,31 +41,40 @@ int List::back() {
 }
 
 void List::push_back(int value) {
-    Node tmp{value};
-    tmp.next = tail;
-    tail->prev = &tmp;
-    tail = &tmp;
+    Node* tmp = new Node{tail, nullptr, value};
+    if(_size == 0){
+        head = tail = tmp;
+    }
+    else{
+        tail->next = tmp;
+        tail = tmp;
+    }
     ++_size;
 }
 
 void List::push_front(int value) {
-    Node tmp{value};
-    tmp.prev = head;
-    head->next = &tmp;
-    head = &tmp;
+    Node* tmp = new Node{nullptr, head, value};
+    if(_size == 0){
+        head = tail = tmp;
+    }
+    else{
+        head->prev = tmp;
+        head = tmp;
+    }
     ++_size;
 }
 
 void List::insert(Node* pos, int value) {
-    if(pos == nullptr || pos->next == nullptr && pos->prev == nullptr && pos != head)
+    if(pos == nullptr || (pos->next == nullptr && pos->prev == nullptr && pos != head))
         throw std::runtime_error("Incorrect position!");
     if(pos->next == nullptr)
         push_back(value);
     else{
-        Node tmp{value};
-        tmp.next = pos->next;
-        tmp.prev = pos;
-        pos->next = &tmp;
+        Node* tmp = new Node{pos,pos->next,value};
+        pos->next = tmp;
+        if(tmp->next){
+            (tmp->next)->prev = tmp;
+        }
         ++_size;
     }
 }
@@ -69,13 +86,15 @@ void List::pop_front() {
 }
 
 void List::pop_back() {
-    tail = tail->prev;
-    tail->next = nullptr;
-    --_size;
+    if(tail->prev != nullptr){
+        tail = tail->prev;
+        tail->next = nullptr;
+        --_size;
+    }
 }
 
 void List::erase(Node* pos) {
-    if(pos == nullptr || pos->next == nullptr && pos->prev == nullptr && pos != head)
+    if(pos == nullptr || (pos->next == nullptr && pos->prev == nullptr && pos != head))
         throw std::runtime_error("Incorrect position!");
     if(pos->next == nullptr)
         pop_back();
@@ -129,6 +148,7 @@ void List::replace(int old_value, int new_value) {
 
 void List::merge(const List& other) {
     tail->next = other.head;
+    other.head->prev = tail;
     tail = other.tail;
     _size+=other._size;
 }
@@ -158,5 +178,17 @@ bool List::empty() const{
 
 void List::copy(const List& other) {
     clear();
-    
+    if(other.empty()){
+        return;
+    }
+    Node* tmp;
+    tmp = other.head;
+    Node* head_ = new Node(other.head->value);
+    head = tail = head_;
+    ++_size;
+    for(size_t i = 1;i < other.size();++i){
+        std::cout<<tmp->value<<' ';
+        push_back(tmp->next->value);
+        tmp = tmp->next;
+    }
 }
