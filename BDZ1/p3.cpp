@@ -1,45 +1,38 @@
 #include <iostream>
 #include <stack>
-#include <vector>
+#include <string>
 
 int main() {
-    std::stack<int> one;
-    std::stack<int> tup;
-    std::stack<int> two;
-    std::vector<std::pair<int,int>> ans;
+  std::string s;
+  std::getline(std::cin, s);
+  std::stack<int> numbers;
+  std::stack<std::string> str;
+  int curn = 0;
+  std::string curs = "";
+  for (size_t i = 0; i < s.size(); ++i) {
 
-    int n;
-    std::cin>>n;
-    two.push(0);
-    int m[n];
-    for(size_t i = 0; i < n; ++i){
-        int a;
-        std::cin>>a;
-        m[i]=a;
-    }
-    for(int i = n - 1; i >= 0; --i)
-        one.push(m[i]);
+    if (isdigit(s[i])) {
+      curn = s[i] - '0';
+      numbers.push(curn);
 
-    for(size_t i = 0; i< n; ++i){
-        int a=one.top();
-        one.pop();
-        ans.push_back(std::make_pair(1,1));
-        tup.push(a);
-        while(tup.size()){
-            if(tup.top()==two.top()+1){
-                int b=tup.top();
-                tup.pop();
-                two.push(b);
-                ans.push_back(std::make_pair(2,1));
-            }
-            else break;
-        }
+    } else if (s[i] == '[') {
+      str.push(curs);
+      curn = 0;
+      curs.clear();
+
+    } else if (s[i] == ']') {
+      std::string temp = curs;
+      curs = str.top();
+      str.pop();
+      int repeat_count = numbers.top();
+      numbers.pop();
+      for (int j = 0; j < repeat_count; ++j)
+        curs += temp;
+
+    } else {
+      curs += s[i];
     }
-    if(tup.size())
-        std::cout<<0;
-    else{
-        for(size_t i = 0; i< 2*n;++i)
-            std::cout<<ans[i].first<<' '<<ans[i].second<<'\n';
-    }
-    return 0;
+  }
+
+  std::cout << curs << std::endl;
 }
