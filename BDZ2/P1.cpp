@@ -20,53 +20,39 @@ struct Interval {
         if(int1.right < int2.left){
             return Interval(1,0);
         }
-        return Interval(int2.left, std::min(int1.right,int2.right));
+        return Interval(std::max(int2.left,int1.left), std::min(int1.right,int2.right));
     }
     bool operator<(Interval& rhs){
-        return this->right-rhs.right + this->length() - rhs.length() < 0;
+        return this->right<rhs.right;
     }
 };
 
-bool custom_comp(Interval& lhs,Interval& rhs){
-        return lhs.right-rhs.right + lhs.length() - rhs.length() < 0;
-}
-
 std::vector<Interval> v;
 
-void Sorting(int l, int r){
-    if(l==r+2){
-        if(v[l] < v[l+1]){
-            std::swap(v[l],v[l+1]);
-        }
+void merge_sort(int l, int r){
+    if(l+1==r){
         return;
     }
-    int m = l+r >>1;
-    Sorting()
+    int m = (l+r) >>1;
+    merge_sort(l,m);
+    merge_sort(m,r);
+    for(size_t k = m; k < r; ++k){
+        int i = k;
+        while(i > l && v[i]<v[i-1]){
+            std::swap(v[i],v[i-1]);
+            --i;
+        }
+    }
+    return;
 }
-
-Interval max_overlap(int l, int r){
-    if(l+2==r){
-        return v[l].overlap(v[l+1]);
-    }
-    if(l+1==r){
-        return Interval{1,0};
-    }
-    int m = l+r >> 1;
-    Interval a{max_overlap(l,m)};
-    Interval b{max_overlap(m,r)};
-    Interval c{v[m-1].overlap(v[m])};
-    if(a.length() >= b.length() && a.length() >= c.length()){
-        return a;
-    }
-    if(b.length() >= a.length() && b.length() >= c.length()){
-        return b;
-    }
-    return c;
-}
-
-
+ 
 
 int main() {
+    // Отключить синхронизацию между iostream и stdio.
+    std::ios::sync_with_stdio(false);
+    // Отключить синхронизацию между std::cin и std::cout.
+    std::cin.tie(nullptr);
+
     int n;
     std::cin>>n;
     v.reserve(n);
@@ -75,9 +61,19 @@ int main() {
         std::cin>>a>>b;
         v.emplace_back(a,b);
     }
-    std::sort(v.begin(),v.end(),custom_comp);
-    Interval res = max_overlap(0,n);
-    std::cout<<res.length()<<'\n';
-    if(res.length()!=0)
-    std::cout<<res.left<<' '<<res.right;
+
+    merge_sort(0,n);
+
+    Interval max_int{1,0};
+    for(size_t i = 1; i < n;++i){
+        Interval tmp = v[i-1].overlap(v[i]);
+        if(tmp.length()>max_int.length()){
+            max_int = tmp;
+        }
+    }
+
+    std::cout<<max_int.length()<<'\n';
+    if(max_int.length()>0){
+        std::cout<<max_int.left<<' '<<max_int.right<<'\n';
+    }
 }
