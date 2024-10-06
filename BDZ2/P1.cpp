@@ -14,13 +14,13 @@ struct Interval {
     Interval overlap(const Interval& other){
         Interval int1 = *this;
         Interval int2 = other;
-        if(int1.left > int2.right){
+        if(int1.left > int2.left){
             std::swap(int1,int2);
         }
         if(int1.right < int2.left){
             return Interval(1,0);
         }
-        return Interval(std::max(int2.left,int1.left), std::min(int1.right,int2.right));
+        return Interval(int2.left, std::min(int1.right,int2.right));
     }
     bool operator<(Interval& rhs){
         return this->right<rhs.right;
@@ -29,6 +29,42 @@ struct Interval {
 
 std::vector<Interval> v;
 
+void merge(int l,int r){
+    int m = (l+r)>>1;
+    int n1 = m-l;
+    int n2 = r-m;
+    std::vector<Interval> v1, v2;
+
+    for (int i = 0; i < n1; ++i)
+        v1.push_back(v[l + i]);
+    for (int j = 0; j < n2; ++j)
+        v2.push_back(v[m + j]);
+
+    int i = 0;
+    int j = 0;
+    int k = l;
+    while (i < n1 && j < n2) {
+        if (v1[i] < v2[j]) {
+            v[k] = v1[i];
+            ++i;
+        } else {
+            v[k] = v2[j];
+            ++j;
+        }
+        ++k;
+    }
+    while (i < n1) {
+        v[k] = v1[i];
+        ++i;
+        ++k;
+    }
+    while (j < n2) {
+        v[k] = v2[j];
+        ++j;
+        ++k;
+    }
+}
+
 void merge_sort(int l, int r){
     if(l+1==r){
         return;
@@ -36,13 +72,7 @@ void merge_sort(int l, int r){
     int m = (l+r) >>1;
     merge_sort(l,m);
     merge_sort(m,r);
-    for(size_t k = m; k < r; ++k){
-        int i = k;
-        while(i > l && v[i]<v[i-1]){
-            std::swap(v[i],v[i-1]);
-            --i;
-        }
-    }
+    merge(l,r);
     return;
 }
  
