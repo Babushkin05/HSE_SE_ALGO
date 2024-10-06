@@ -23,14 +23,14 @@ struct Interval {
         return Interval(int2.left, std::min(int1.right,int2.right));
     }
     bool operator<(Interval& rhs){
-        return this->right<rhs.right;
+        return this->right<rhs.right || (this->right==rhs.right && this->left<rhs.left);
     }
 };
 
 std::vector<Interval> v;
 
 void merge(int l,int r){
-    int m = (l+r)>>1;
+    int m = (l+r)/2;
     int n1 = m-l;
     int n2 = r-m;
     std::vector<Interval> v1, v2;
@@ -69,7 +69,7 @@ void merge_sort(int l, int r){
     if(l+1==r){
         return;
     }
-    int m = (l+r) >>1;
+    int m = (l+r)/2;
     merge_sort(l,m);
     merge_sort(m,r);
     merge(l,r);

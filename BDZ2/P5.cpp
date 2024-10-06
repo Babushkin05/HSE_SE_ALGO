@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <deque>
 
 int get_dist(std::pair<int,int> a, std::pair<int,int> b){
     return sqrt(pow(a.first-b.first,2) + pow(a.second - b.second,2));
