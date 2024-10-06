@@ -1,32 +1,33 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
-std::string shift(std::string s, int a){
-    std::string ans;
-    for(int i = 0; i< a;++i){
-        ans+="0";
-    }
+std::string shift(std::string& s, int a){
+    if(a<=0)
+        return s;
+    std::string ans(a,'0');
     return s+ans;
 }
-std::string add_zeros(std::string s, int a){
-    std::string ans;
-    for(int i = 0; i<a;++i){
-        ans+="0";
-    }
+std::string add_zeros(std::string& s, int a){
+    if(a<=0)
+        return s;
+    std::string ans(a,'0');
     return ans+s;
 }
 
-std::string big_sum(std::string s1, std::string s2){
-    std::string ans;
+std::string big_sum(std::string& s1, std::string& s2){
     if(s1.size()<s2.size())
         std::swap(s1,s2);
-    s2 = add_zeros(s2, s1.size() - s2.size());
-    for(int i = 0; i<=s1.size();++i){
-        ans+="0";
-    }
+    int j = s1.size() - s2.size();
+    std::string ans(s1.size()+1,'0');
     int q = 0;
-    for(int i = s1.size()-1;i>=0;--i){
-        int tmp = s1[i] + s2[i] - 2*'0';
+    for(int i = s1.size()-1;i-j>=0;--i){
+        int tmp = s1[i] + s2[i-j] - 2*'0';
+        ans[i+ 1] = (tmp+q)%10+ '0';
+        q= (tmp+q) /10;
+    }
+    for(int i = j-1; i>=0;--i){
+        int tmp = s1[i]  - '0';
         ans[i+ 1] = (tmp+q)%10+ '0';
         q= (tmp+q) /10;
     }
@@ -36,7 +37,7 @@ std::string big_sum(std::string s1, std::string s2){
     return ans;
 }
 
-std::string big_sub(std::string s1, std::string s2){
+std::string big_sub(std::string& s1, std::string& s2){
     std::string ans = s1;
     int q=0;
     s2 = add_zeros(s2, s1.size()-s2.size());
@@ -48,14 +49,11 @@ std::string big_sub(std::string s1, std::string s2){
     return ans;
 }
 
-std::string big_mult(std::string s, int m){
+std::string big_mult(std::string& s, int m){
     if(m==0){
         return "0";
     }
-    std::string ans;
-    for(int i = 0; i<=s.size();++i){
-        ans+="0";
-    }
+    std::string ans(s.size()+1,'0');
     int q = 0;
     for(int i = s.size()-1;i>=0;--i){
         int tmp = (s[i]-'0')*m;
@@ -69,12 +67,10 @@ std::string big_mult(std::string s, int m){
 }
 
 std::string big_mult(std::string s1, std::string s2){
-    std::string ans;
-    for(int i = 0; i<= std::max(s1.size(),s2.size());++i){
-        ans+="0";
-    }
+    std::string ans(std::max(s1.size(),s2.size()),'0');
     for(int i = s1.size()-1; i>=0;--i){
-        std::string tmp = shift(big_mult(s2, s1[i]-'0'),s1.size()-i-1);
+        std::string tmp = big_mult(s2, s1[i]-'0');
+        tmp = shift(tmp,s1.size()-i-1);
         //std::cout<<tmp<<'\n';
         tmp = add_zeros(tmp,ans.size() - tmp.size());
         //std::cout<<tmp<<'\n';
@@ -84,7 +80,7 @@ std::string big_mult(std::string s1, std::string s2){
     return ans;
 }
 
-std::string remove_zeros(std::string s){
+std::string remove_zeros(std::string& s){
     int i=0;
     while(s[i]=='0'){
         ++i;
@@ -96,8 +92,6 @@ std::string remove_zeros(std::string s){
     return s;
 }
 
-
-
 std::string karatsuba(std::string a, std::string b){
     a = remove_zeros(a);
     b = remove_zeros(b);
@@ -105,8 +99,9 @@ std::string karatsuba(std::string a, std::string b){
         std::swap(a,b);
     b = add_zeros(b, a.size() - b.size());
     
-    if(a.size()<=50){
-        return remove_zeros(big_mult(a,b));
+    if(a.size()<=100){
+        std::string tmp = big_mult(a,b);
+        return remove_zeros(tmp);
     }
     int l = (a.size())/2;
     std::string a1 = a.substr(0,l);
@@ -114,17 +109,17 @@ std::string karatsuba(std::string a, std::string b){
     std::string b1 = b.substr(0,l);
     std::string b0 = b.substr(l);
 
-    //std::cout<<a<<' '<<b<<' '<<a1<<' '<<a0<<' '<<b1<<' '<<b0<<'\n';
-
     std::string a0b0 = karatsuba(a0,b0);
     std::string a1b1 = karatsuba(a1,b1);
     std::string m3 = karatsuba(big_sum(a0,a1),big_sum(b0,b1));
 
     std::string s1 = shift(a1b1,2*(a.size()-l));
-    std::string s2 = shift(big_sub(big_sub(m3, a1b1), a0b0), a.size()-l);
-    std::string s3 = a0b0;
+    std::string tmp = big_sub(m3, a1b1);
+    tmp = big_sub(tmp, a0b0);
+    std::string s2 = shift(tmp, a.size()-l);
+    tmp = big_sum(s1,s2);
 
-    return big_sum(big_sum(s1,s2),s3);
+    return big_sum(tmp,a0b0);
 }
 
 int main(){
@@ -134,7 +129,7 @@ int main(){
     std::cin.tie(nullptr);
     std::string s1,s2;
     std::cin>>s1>>s2;
-
-    std::cout<<remove_zeros(karatsuba(s1,s2));
+    std::string tmp = karatsuba(s1,s2);
+    std::cout<<remove_zeros(tmp);
     return 0;
 }
