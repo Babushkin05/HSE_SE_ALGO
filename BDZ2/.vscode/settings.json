@@ -62,6 +62,7 @@
         "compare": "cpp",
         "concepts": "cpp",
         "algorithm": "cpp",
-        "deque": "cpp"
+        "deque": "cpp",
+        "iomanip": "cpp"
     }
 }
