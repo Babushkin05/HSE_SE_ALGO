@@ -1,6 +1,4 @@
 #include <vector> 
-#include <iostream>
-
 
 std::vector<int> v;
 
@@ -69,14 +67,4 @@ int extended_merge_sort(int l, int r){
     ans += count_inversions(l,r);
     merge(l,r);
     return ans;
-}
-
-int main() {
-    int n;
-    std::cin>>n;
-    v.resize(n);
-    for(size_t i = 0; i< n;++i){
-        std::cin>>v[i];
-    }
-    std::cout<<extended_merge_sort(0,n);
 }
