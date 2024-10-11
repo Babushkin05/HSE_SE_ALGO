@@ -83,4 +83,4 @@ $=...\to \sum^{log_2k}2^{2i}2\frac{n}{2^i}=\sum^{log_2n}2^{i+1}n=$
 
 $=2n\sum^{log_2n}2^i = 2n(2^{log_2n+1}-1) = 2n(2n-1)=4n^2-2n$
 
-тогда $T(n)=O(nlogn)$
+тогда $T(n)=O(n^2)$
