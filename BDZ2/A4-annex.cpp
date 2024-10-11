@@ -44,7 +44,7 @@ int count_inversions(int l, int r){
     int i = l;
     int j = m;
     while(i < m && j < r){
-        if(v[i]>v[j]){
+        if(v[i] > v[j]){
             res += j - m + 1;
             ++j;
         }
@@ -68,3 +68,4 @@ int extended_merge_sort(int l, int r){
     merge(l,r);
     return ans;
 }
+
