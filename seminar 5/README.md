@@ -79,6 +79,8 @@ $8T(\frac{n-1}{2}-1)+4\frac{n-1}{2}+2(n-1)+n=16T(\frac{\frac{n-1}{2}-1}{2}) +8(\
 
 $16T(\frac{\frac{n-1}{2}-1}{2}) +8(\frac{n-1}{2}-1)+2(n-1)+2(n-1)+n=$
 
-$=...\to \sum^{log_2k}2^i2\frac{n}{2^i}=\sum^{log_2n}2n=2nlogn$
+$=...\to \sum^{log_2k}2^{2i}2\frac{n}{2^i}=\sum^{log_2n}2^{i+1}n=$
+
+$=2n\sum^{log_2n}2^i = 2n(2^{log_2n+1}-1) = 2n(2n-1)=4n^2-2n$
 
 тогда $T(n)=O(nlogn)$
