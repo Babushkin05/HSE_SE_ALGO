@@ -40,7 +40,7 @@ long double intersection_area(int n, long double scale = 1) {
     k += is_point_inside_intersection(x, y, x1, y1, r1, x2, y2, r2, x3, y3, r3);
   }
 
-  return (k * (max_x - min_x) * (max_y - min_y)) / n * scale;
+  return (k * (max_x - min_x) * (max_y - min_y)) / n * scale * scale;
 }
 
 int main() {
