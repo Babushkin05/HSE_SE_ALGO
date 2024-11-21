@@ -2,9 +2,9 @@
 #include <iostream>
 #include <vector>
 
-std::vector<int> v;
 
-void merge(int l, int r) {
+
+void merge(int l, int r, std::vector<int> &v) {
   int m = (l + r) / 2;
   int n1 = m - l;
   int n2 = r - m;
@@ -40,7 +40,7 @@ void merge(int l, int r) {
   }
 }
 
-void insertion_sort(int l, int r) {
+void insertion_sort(int l, int r, std::vector<int> &v) {
   for (size_t i = l; i < r; ++i) {
     int k = v[i];
     int j = i - 1;
@@ -52,18 +52,18 @@ void insertion_sort(int l, int r) {
   }
 }
 
-void merge_sort(int l, int r) {
+void merge_sort(int l, int r, std::vector<int> &v) {
   if (l + 1 >= r) {
     return;
   }
   if (r - l <= 15) {
-    insertion_sort(l, r);
+    insertion_sort(l, r, v);
     return;
   }
   int m = (l + r) / 2;
-  merge_sort(l, m);
-  merge_sort(m, r);
-  merge(l, r);
+  merge_sort(l, m, v);
+  merge_sort(m, r, v);
+  merge(l, r, v);
   return;
 }
 
@@ -74,11 +74,11 @@ int main() {
   std::cin.tie(nullptr);
   int n;
   std::cin >> n;
-  v.resize(n);
+  std::vector<int> v(n);
   for (size_t i = 0; i < n; ++i) {
     std::cin >> v[i];
   }
-  merge_sort(0, n);
+  merge_sort(0, n, v);
   for (size_t i = 0; i < n; ++i) {
     std::cout << v[i] << ' ';
   }
