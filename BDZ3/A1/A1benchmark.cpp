@@ -45,15 +45,15 @@ long double intersection_area(int n, long double scale = 1) {
 
 int main() {
   long double right_area = M_PI/4 + 5*asin(0.8)/4 - 1;
-  std::ofstream csv("A1_n_correlation.csv");
+  std::ofstream csv("n_correlation.csv");
   csv << "n;area;area_diff\n";
 
-  for(size_t n = 0; n < 1000000; n += 1000){
+  for(size_t n = 100; n < 100000; n += 500){
     long double area = intersection_area(n);
     csv<<n<<';'<<area<<';'<<std::abs(area - right_area)<<'\n';
   }
 
-  csv = std::ofstream("A1_scale_correlation.csv");
+  csv = std::ofstream("scale_correlation.csv");
   csv << "scale;area;area_diff\n";
 
   for(long double scale = 1; scale < 10; scale+= 0.1){
