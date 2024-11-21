@@ -23,6 +23,7 @@ std::pair<int,int> index_by_key(std::vector<std::vector<int>> matrix, int n, int
                     break;
                 }
             }
+            break;
         }
     }
     return std::make_pair(-1,-1);
