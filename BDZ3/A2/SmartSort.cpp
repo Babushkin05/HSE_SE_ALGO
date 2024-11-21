@@ -77,20 +77,3 @@ void merge_sort(int l, int r, std::vector<int> &v) {
   merge(l, r, v);
   return;
 }
-
-int main() {
-  // Отключить синхронизацию между iostream и stdio.
-  std::ios::sync_with_stdio(false);
-  // Отключить синхронизацию между std::cin и std::cout.
-  std::cin.tie(nullptr);
-  int n;
-  std::cin >> n;
-  std::vector<int> v(n);
-  for (size_t i = 0; i < n; ++i) {
-    std::cin >> v[i];
-  }
-  smart_merge_sort(0, n, v, 15);
-  for (size_t i = 0; i < n; ++i) {
-    std::cout << v[i] << ' ';
-  }
-}
