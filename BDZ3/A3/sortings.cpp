@@ -65,7 +65,7 @@ void insertion_sort(std::vector<int> &arr, int left, int right) {
 }
 
 void intro_sort(std::vector<int> &arr, int left, int right, int height,
-                int max_height, int threshold = 16) {
+                int max_height, int threshold = 32) {
   if (height == max_height) {
     heap_sort(arr, 1, arr.size());
     return;
@@ -81,8 +81,8 @@ void intro_sort(std::vector<int> &arr, int left, int right, int height,
   }
 }
 
-void intro_sort(std::vector<int> &arr) {
-  intro_sort(arr, 1, arr.size(), 0, 2 * log2(arr.size()));
+void intro_sort(std::vector<int> &arr, int n) {
+  intro_sort(arr, 1, n, 0, 2 * log2(arr.size()));
 }
 
 void quick_sort(std::vector<int> &arr, int left, int right) {
