@@ -3,7 +3,7 @@
 
 class ArrayGenerator {
 public:
-  static const int max_len = 10000;
+  static const int max_len = 100000;
   static const int min_len = 20;
   static const int len_step = 100;
   static const int max_a = 0;
