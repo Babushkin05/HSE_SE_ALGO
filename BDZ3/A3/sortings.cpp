@@ -65,9 +65,9 @@ void insertion_sort(std::vector<int> &arr, int left, int right) {
 }
 
 void intro_sort(std::vector<int> &arr, int left, int right, int height,
-                int max_height, int threshold = 32) {
-  if (height == max_height) {
-    heap_sort(arr, 1, arr.size());
+                int max_height, int full_len, int threshold = 32) {
+  if (height >= max_height) {
+    heap_sort(arr, 1, full_len);
     return;
   }
   if (right - left <= threshold) {
@@ -76,13 +76,13 @@ void intro_sort(std::vector<int> &arr, int left, int right, int height,
   }
   if (left < right) {
     int pivot = partition(arr, left, right);
-    intro_sort(arr, left, pivot, height + 1, max_height);
-    intro_sort(arr, pivot + 1, right, height + 1, max_height);
+    intro_sort(arr, left, pivot, height + 1, max_height, full_len);
+    intro_sort(arr, pivot + 1, right, height + 1, max_height, full_len);
   }
 }
 
 void intro_sort(std::vector<int> &arr, int n) {
-  intro_sort(arr, 1, n, 0, 2 * log2(arr.size()));
+  intro_sort(arr, 1, n, 0, 2 * log2(n), n);
 }
 
 void quick_sort(std::vector<int> &arr, int left, int right) {
