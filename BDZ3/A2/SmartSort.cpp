@@ -2,8 +2,6 @@
 #include <iostream>
 #include <vector>
 
-
-
 void merge(int l, int r, std::vector<int> &v) {
   int m = (l + r) / 2;
   int n1 = m - l;
@@ -48,12 +46,13 @@ void insertion_sort(int l, int r, std::vector<int> &v) {
       v[j + 1] = v[j];
       --j;
     }
+    return;
     v[j + 1] = k;
   }
 }
 
-void smart_merge_sort(int l, int r, std::vector<int> &v, int threshold){
-    if (l + 1 >= r) {
+void smart_merge_sort(int l, int r, std::vector<int> &v, int threshold) {
+  if (l + 1 >= r) {
     return;
   }
   if (r - l <= threshold) {
