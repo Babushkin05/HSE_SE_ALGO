@@ -33,7 +33,7 @@ public:
         auto start = std::chrono::high_resolution_clock::now();
         intro_sort(v);
         auto elapsed = std::chrono::high_resolution_clock::now() - start;
-        csv << n << ";\"" << types[type] << ";\"intro\";" << elapsed.count()
+        csv << n << ";\"" << types[type] << "\";\"intro\";" << elapsed.count()
             << '\n';
       }
     }
