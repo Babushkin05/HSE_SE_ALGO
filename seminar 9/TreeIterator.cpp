@@ -97,14 +97,16 @@ public:
         while (ptr_->right != nullptr) {
           ptr_ = ptr_->right;
         }
-      } else if ((ptr_->parent).data < ptr_->data) {
+      } else if (ptr_->parent == nullptr) {
+        ptr_ = nullptr;
+      } else if ((ptr_->parent)->data < ptr_->data) {
         ptr_ = ptr_->parent;
       } else {
         ptr_ = ptr_->parent;
-        if ((ptr_->parent).data < ptr_->data) {
+        if ((ptr_->parent)->data < ptr_->data) {
           ptr_ = ptr_->parent;
         } else {
-          ptr_ = ptr_->left;
+          ptr_ = nullptr;
         }
       }
       return *this;
@@ -116,6 +118,8 @@ public:
         while (ptr_->left != nullptr) {
           ptr_ = ptr_->left;
         }
+      } else if (ptr_->parent == nullptr) {
+        ptr_ = nullptr;
       } else if ((ptr_->parent)->data > ptr_->data) {
         ptr_ = ptr_->parent;
       } else {
@@ -123,7 +127,7 @@ public:
         if ((ptr_->parent)->data > ptr_->data) {
           ptr_ = ptr_->parent;
         } else {
-          ptr_ = ptr_->right;
+          ptr_ = nullptr;
         }
       }
       return *this;
@@ -152,13 +156,17 @@ public:
   }
 
   // Максимум, конец дерева
-  Iterator end() {
+  Iterator end() { return nullptr; }
+
+  Iterator rbegin() {
     Node<T> *it = root;
     while (it->right != nullptr) {
       it = it->right;
     }
     return Iterator(it);
   }
+
+  Iterator rend() { return nullptr; }
 
 private:
   Node<T> *root;
@@ -178,10 +186,17 @@ int main() {
     tree.insert(tmp);
   }
 
+  // testing
+  std::cout << "tree successor:\n";
   for (Node<int> node : tree) {
-    std::cout << node << " ";
+    std::cout << node << ' ';
   }
-
-  // что-нибудь для проверки
-  // и тестирования
+  std::cout << "\ntree predecessor:\n";
+  for (auto iter = tree.rbegin(); iter != nullptr; --iter) {
+    std::cout << (*iter).data << ' ';
+    if ((*iter).data == 1) {
+      --iter;
+      return 0;
+    }
+  }
 }
