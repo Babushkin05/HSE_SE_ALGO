@@ -2,7 +2,7 @@
 //  main.cpp
 //  treeiterator
 //
-//  Created by Roman N. on 25.11.2024. Edited by
+//  Created by Roman N. on 25.11.2024. Edited by Vovs Babushkin
 //
 
 #include <iostream>
@@ -60,17 +60,19 @@ public:
     while (true) {
       if (p->data > value) {
         if (p->left->data == value) {
-          p->left = p->left->left;
-          p->left = p;
-          break;
+          Node<T> *tmp = p->left;
+          p->left = tmp->left;
+          p->left->parent = p;
+          return tmp;
         } else {
           p = p->left;
         }
       } else {
-        if (p->right == value) {
-          p->right = p->right->right;
-          p->right = p;
-          break;
+        if (p->right->data == value) {
+          Node<T> *tmp = p->left;
+          p->right = tmp->right;
+          p->right->parent = p;
+          return tmp;
         } else {
           p = p->right;
         }
@@ -103,10 +105,15 @@ public:
         ptr_ = ptr_->parent;
       } else {
         ptr_ = ptr_->parent;
-        if ((ptr_->parent)->data < ptr_->data) {
-          ptr_ = ptr_->parent;
-        } else {
+        if(ptr_->parent == nullptr){
           ptr_ = nullptr;
+          return *this;
+        }
+        while(ptr_->data < (ptr_=ptr_->parent)->data){
+          if(ptr_->parent == nullptr){
+            ptr_ = nullptr;
+            break;
+          }
         }
       }
       return *this;
@@ -124,10 +131,15 @@ public:
         ptr_ = ptr_->parent;
       } else {
         ptr_ = ptr_->parent;
-        if ((ptr_->parent)->data > ptr_->data) {
-          ptr_ = ptr_->parent;
-        } else {
+        if(ptr_->parent == nullptr){
           ptr_ = nullptr;
+          return *this;
+        }
+        while(ptr_->data > (ptr_=ptr_->parent)->data){
+          if(ptr_->parent == nullptr){
+            ptr_ = nullptr;
+            break;
+          }
         }
       }
       return *this;
@@ -176,7 +188,9 @@ int main() {
 
   // input data
   int n;
+  std::cout<< "n: ";
   std::cin >> n;
+  std::cout<< "type "<< n<< " elements: ";
   int root;
   std::cin >> root;
   Tree<int> tree{root};
@@ -192,7 +206,24 @@ int main() {
     std::cout << node << ' ';
   }
   std::cout << "\ntree predecessor:\n";
-  for (auto iter = tree.rbegin(); iter != nullptr; --iter) {
+  for (auto iter = tree.rbegin(); iter != tree.rend(); --iter) {
     std::cout << (*iter).data << ' ';
   }
+
+  // erasing
+  std::cout<<"\ntype elem to erase: ";
+  int a;
+  std::cin>>a;
+  tree.erase(a);
+
+  // testing
+  std::cout << "tree successor:\n";
+  for (Node<int> node : tree) {
+    std::cout << node << ' ';
+  }
+  std::cout << "\ntree predecessor:\n";
+  for (auto iter = tree.rbegin(); iter != tree.rend(); --iter) {
+    std::cout << (*iter).data << ' ';
+  }
+
 }
