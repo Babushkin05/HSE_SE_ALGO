@@ -26,3 +26,21 @@
 ## 2.
 
 Код решения в файле [TreeIterator.cpp](TreeIterator.cpp)
+
+на 23 версии плюсов собирается с двумя ворнингами (игнорируем)
+
+пример решения
+
+```
+n: 7
+type 7 elements: 1 7 2 3 5 4 0
+tree successor:
+0 1 2 3 4 5 7 
+tree predecessor:
+7 5 4 3 2 1 0 
+type elem to erase: 0
+tree successor:
+1 2 3 4 5 7 
+tree predecessor:
+7 5 4 3 2 1 
+```
