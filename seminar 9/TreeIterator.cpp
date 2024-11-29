@@ -194,9 +194,5 @@ int main() {
   std::cout << "\ntree predecessor:\n";
   for (auto iter = tree.rbegin(); iter != nullptr; --iter) {
     std::cout << (*iter).data << ' ';
-    if ((*iter).data == 1) {
-      --iter;
-      return 0;
-    }
   }
 }
