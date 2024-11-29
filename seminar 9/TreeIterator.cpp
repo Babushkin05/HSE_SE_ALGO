@@ -62,16 +62,18 @@ public:
         if (p->left->data == value) {
           Node<T> *tmp = p->left;
           p->left = tmp->left;
-          p->left->parent = p;
+          if(p->left != nullptr)
+            p->left->parent = p;
           return tmp;
         } else {
           p = p->left;
         }
-      } else {
+      } else if(p->data < value){
         if (p->right->data == value) {
           Node<T> *tmp = p->left;
           p->right = tmp->right;
-          p->right->parent = p;
+          if(p->right != nullptr)
+            p->right->parent = p;
           return tmp;
         } else {
           p = p->right;
