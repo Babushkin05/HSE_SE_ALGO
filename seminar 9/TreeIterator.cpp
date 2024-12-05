@@ -62,17 +62,17 @@ public:
         if (p->left->data == value) {
           Node<T> *tmp = p->left;
           p->left = tmp->left;
-          if(p->left != nullptr)
+          if (p->left != nullptr)
             p->left->parent = p;
           return tmp;
         } else {
           p = p->left;
         }
-      } else if(p->data < value){
+      } else if (p->data < value) {
         if (p->right->data == value) {
           Node<T> *tmp = p->left;
           p->right = tmp->right;
-          if(p->right != nullptr)
+          if (p->right != nullptr)
             p->right->parent = p;
           return tmp;
         } else {
@@ -107,12 +107,12 @@ public:
         ptr_ = ptr_->parent;
       } else {
         ptr_ = ptr_->parent;
-        if(ptr_->parent == nullptr){
+        if (ptr_->parent == nullptr) {
           ptr_ = nullptr;
           return *this;
         }
-        while(ptr_->data < (ptr_=ptr_->parent)->data){
-          if(ptr_->parent == nullptr){
+        while (ptr_->data < (ptr_ = ptr_->parent)->data) {
+          if (ptr_->parent == nullptr) {
             ptr_ = nullptr;
             break;
           }
@@ -133,12 +133,12 @@ public:
         ptr_ = ptr_->parent;
       } else {
         ptr_ = ptr_->parent;
-        if(ptr_->parent == nullptr){
+        if (ptr_->parent == nullptr) {
           ptr_ = nullptr;
           return *this;
         }
-        while(ptr_->data > (ptr_=ptr_->parent)->data){
-          if(ptr_->parent == nullptr){
+        while (ptr_->data > (ptr_ = ptr_->parent)->data) {
+          if (ptr_->parent == nullptr) {
             ptr_ = nullptr;
             break;
           }
@@ -190,9 +190,9 @@ int main() {
 
   // input data
   int n;
-  std::cout<< "n: ";
+  std::cout << "n: ";
   std::cin >> n;
-  std::cout<< "type "<< n<< " elements: ";
+  std::cout << "type " << n << " elements: ";
   int root;
   std::cin >> root;
   Tree<int> tree{root};
@@ -213,9 +213,9 @@ int main() {
   }
 
   // erasing
-  std::cout<<"\ntype elem to erase: ";
+  std::cout << "\ntype elem to erase: ";
   int a;
-  std::cin>>a;
+  std::cin >> a;
   tree.erase(a);
 
   // testing
@@ -227,5 +227,4 @@ int main() {
   for (auto iter = tree.rbegin(); iter != tree.rend(); --iter) {
     std::cout << (*iter).data << ' ';
   }
-
 }
