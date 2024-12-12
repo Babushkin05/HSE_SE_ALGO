@@ -1,182 +1,248 @@
 #include "avl_tree.h"
 #include <algorithm>
+#include <functional>
+#include <math.h>
 
-Node::Node(int value) {
-    height = 0;
-    left = nullptr;
-    right = nullptr;
-    value = value;
-}
+Node::Node(int value)
+    : value(value), height(1), left(nullptr), right(nullptr) {}
 
-Node::~Node() = default;
+Node::~Node() {}
 
-AVLTree::AVLTree() {
-    root_ = nullptr;
-    size_ = 0;
-}
+AVLTree::AVLTree() : root_(nullptr), size_(0) {}
 
-AVLTree::AVLTree(int value) {
-    Node r{value};
-    root_ = &r;
-    size_ = 1;
-}
+AVLTree::AVLTree(int value) : root_(new Node(value)), size_(1) {}
 
-int AVLTree::getHeight() {
-    return getNodeHeight(root_);
-}
+int AVLTree::getHeight() { return getNodeHeight(root_); }
 
 void AVLTree::insert(int value) {
-    insertNode(root_, value);
+  if (find(value) != nullptr) {
+    return;
+  }
+  root_ = insertNode(root_, value);
+  size_++;
 }
 
 void AVLTree::erase(int value) {
-    removeNode(root_, value);
+  if (find(value) == nullptr) {
+    return;
+  }
+  root_ = removeNode(root_, value);
+  size_--;
 }
 
 int *AVLTree::find(int value) {
-    return &findNode(root_, value)->value;
+  Node *node = findNode(root_, value);
+
+  if (node == nullptr) {
+    return nullptr;
+  }
+  return &node->value;
 }
 
 int *AVLTree::traversal() {
-    int arr[size_];
-    traversalInternal(root_, arr, 0);
-    return arr;
+  if (empty()) {
+    return nullptr;
+  }
+
+  int *array = new int[size_];
+  int index = 0;
+
+  traversalInternal(root_, array, &index);
+  return array;
 }
 
 int *AVLTree::lowerBound(int value) {
-    return &lowerBoundInternal(root_, value)->value;
+  Node *node = lowerBoundInternal(root_, value);
+
+  return node ? &node->value : nullptr;
 }
 
-bool AVLTree::empty() {
-    return size_ == 0;
-}
+bool AVLTree::empty() { return size_ == 0; }
 
-Node *AVLTree::getRoot() {
-    return root_;
-}
+Node *AVLTree::getRoot() { return root_; }
 
-int AVLTree::getSize() {
-    return size_;
-}
+int AVLTree::getSize() { return size_; }
 
 AVLTree::~AVLTree() {
-    removeMinNode(root_);
+  while (root_) {
+    root_ = removeNode(root_, root_->value);
+  }
+  size_ = 0;
 }
 
 int AVLTree::getNodeHeight(Node *node) {
-    if(node == nullptr){
-        return -1;
-    }
-    return node->height;
+  if (node == nullptr) {
+    return 0;
+  }
+  return node->height;
 }
 
 int AVLTree::balanceFactor(Node *node) {
-    return getNodeHeight(node->left) - getNodeHeight(node->right);
+  if (node == nullptr) {
+    return 0;
+  }
+  return getNodeHeight(node->left) - getNodeHeight(node->right);
 }
 
 void AVLTree::balanceHeight(Node *node) {
-    int factor = balanceFactor(node);
-    if(factor>1){
-        rotateRight(node);
-    }
-    else if(factor<-1){
-        rotateLeft(node);
-    }
+  if (node != nullptr) {
+    node->height =
+        1 + std::max(getNodeHeight(node->left), getNodeHeight(node->right));
+  }
 }
 
 Node *AVLTree::rotateRight(Node *node) {
-    if(node == root_){
-        root_ = node->left;
-    }
-    Node* new_node = node->left;
-    Node *tmp = new_node->right;
-    new_node->right = node;
-    node->left = tmp;
-    return new_node;
+  Node *left = node->left;
+  Node *rightOfLeft = left->right;
+
+  left->right = node;
+  node->left = rightOfLeft;
+
+  balanceHeight(node);
+  balanceHeight(left);
+
+  return left;
 }
 
 Node *AVLTree::rotateLeft(Node *node) {
-    if(node == root_){
-        root_ = node->right;
-    }
-    Node *new_node = node->right;
-    Node *tmp = new_node->left;
-    new_node->left = node;
-    node->right = tmp;
-    return new_node;
+  Node *right = node->right;
+  Node *leftOfRight = right->left;
+
+  right->left = node;
+  node->right = leftOfRight;
+
+  balanceHeight(node);
+  balanceHeight(right);
+
+  return right;
 }
 
 Node *AVLTree::balanceNode(Node *node) {
-    int factor = balanceFactor(node);
-    Node *new_node;
-    if(factor>1){
-        new_node = rotateRight(node);
-    }
-    else if(factor<-1){
-        new_node = rotateLeft(node);
-    }
-    return new_node;
+  balanceHeight(node);
+  int balance = balanceFactor(node);
+  if (balance > 1 && balanceFactor(node->left) >= 0) {
+    return rotateRight(node);
+  }
+  if (balance > 1 && balanceFactor(node->left) < 0) {
+    node->left = rotateLeft(node->left);
+    return rotateRight(node);
+  }
+  if (balance < -1 && balanceFactor(node->right) <= 0) {
+    return rotateLeft(node);
+  }
+  if (balance < -1 && balanceFactor(node->right) > 0) {
+    node->right = rotateRight(node->right);
+    return rotateLeft(node);
+  }
+  return node;
 }
 
 Node *AVLTree::insertNode(Node *node, int value) {
-    if(node->value == value){
-        return node;
-    }
-    ++node->height;
-    if(node->value > value){
-        if(node->left == nullptr){
-            node->left = &Node(value);
-            return node->left;
-        }
-        else{
-            insertNode(node->left, value);
-        }
-    }
-    else{
-        if(node->right == nullptr){
-            node->right = &Node(value);
-            return node->right;
-        }
-        else{
-            insertNode(node->right, value);
-        }
-    }
+  if (node == nullptr) {
+    return new Node(value);
+  }
+  if (value < node->value) {
+    node->left = insertNode(node->left, value);
+  } else if (value > node->value) {
+    node->right = insertNode(node->right, value);
+  } else {
+    return node;
+  }
+  return balanceNode(node);
 }
 
 Node *AVLTree::findMinNode(Node *node) {
-    if(node->left == nullptr){
-        return node;
-    }
-    return findMinNode(node->left);
+  return node->left ? findMinNode(node->left) : node;
 }
 
 Node *AVLTree::removeMinNode(Node *node) {
-    Node *min_node = findMinNode(node);
+  if (node->left != nullptr) {
+    return node->right;
+  }
+  node->left = removeMinNode(node->left);
+  return balanceNode(node);
 }
 
 Node *AVLTree::removeNode(Node *node, int value) {
-    if(node == nullptr){
-        return nullptr;
+  if (node == nullptr) {
+    return nullptr;
+  }
+  if (value < node->value) {
+    node->left = removeNode(node->left, value);
+  } else if (value > node->value) {
+    node->right = removeNode(node->right, value);
+  } else {
+    if (node->left == nullptr || node->right == nullptr) {
+      Node *temp = node->left ? node->left : node->right;
+      if (temp == nullptr) {
+        temp = node;
+        node = nullptr;
+      } else {
+        *node = *temp;
+      }
+      delete temp;
+    } else {
+      Node *temp = findMinNode(node->right);
+      node->value = temp->value;
+      node->right = removeNode(node->right, temp->value);
     }
-    if(node->value > value){
-        Node *tmp = removeNode(node->left, value);
-        if(tmp != nullptr){
-            if(node->left!=nullptr && node->right !=nullptr)
-                node->height = std::max(node->right->height, node->left->height - 1);
-            
-        }
-        return tmp;
-    }
-    if(node->value < value){
-        Node *tmp = removeNode(node->right, value);
-        if(tmp != nullptr){
-
-        }
-    }
+  }
+  if (node == nullptr) {
+    return nullptr;
+  }
+  node->height =
+      1 + std::max(getNodeHeight(node->left), getNodeHeight(node->right));
+  int balance = balanceFactor(node);
+  if (balance > 1 && balanceFactor(node->left) >= 0) {
+    return rotateRight(node);
+  }
+  if (balance > 1 && balanceFactor(node->left) < 0) {
+    node->left = rotateLeft(node->left);
+    return rotateRight(node);
+  }
+  if (balance < -1 && balanceFactor(node->right) <= 0) {
+    return rotateLeft(node);
+  }
+  if (balance < -1 && balanceFactor(node->right) > 0) {
+    node->right = rotateRight(node->right);
+    return rotateLeft(node);
+  }
+  return node;
 }
 
-Node *AVLTree::findNode(Node *node, int value) {}
+Node *AVLTree::findNode(Node *node, int value) {
+  if (node == nullptr) {
+    return nullptr;
+  }
+  if (node->value == value) {
+    return node;
+  }
+  if (node->value < value) {
+    return findNode(node->right, value);
+  }
+  return findNode(node->left, value);
+}
 
-void AVLTree::traversalInternal(Node *node, int *array, int *index) {}
+void AVLTree::traversalInternal(Node *node, int *array, int *index) {
+  if (node == nullptr) {
+    return;
+  }
+  traversalInternal(node->left, array, index);
+  array[(*index)++] = node->value;
+  traversalInternal(node->right, array, index);
+}
 
-Node *AVLTree::lowerBoundInternal(Node *current, int value) const {}
+Node *AVLTree::lowerBoundInternal(Node *current, int value) const {
+  if (!current) {
+    return nullptr;
+  }
+  if (current->value == value) {
+    return current;
+  }
+  if (current->value > value) {
+    Node *left = lowerBoundInternal(current->left, value);
+
+    return left ? left : current;
+  }
+  return lowerBoundInternal(current->right, value);
+}
