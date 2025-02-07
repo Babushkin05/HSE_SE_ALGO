@@ -20,7 +20,12 @@ public:
     HashTable(Func func) : HashTable(100, 0.5, func) {}
     HashTable(size_t capacity_, double factor_, Func func = Func()) : 
         _size(0), _capacity(capacity_), fill_factor(factor_), hash(func), 
-        table(std::vector<Node<KeyType, ValueType>*>(capacity_)) {}
+        table(std::vector<Node<KeyType, ValueType>*>(capacity_)) {
+            if( factor_ <= 0 || factor_ > 1)
+                fill_factor = 0.5;
+            if(_capacity == 0)
+                _capacity = 1;
+        }
 
     ~HashTable(){
         for (size_t i = 0; i < _capacity; ++i) {
@@ -34,7 +39,10 @@ public:
     }
 
     void insert(KeyType key, ValueType value){
-        if(static_cast<double>(_size + 1)/_capacity > fill_factor){
+        size_t ind = hash(key) % _capacity;
+        Node<KeyType, ValueType>* node = new Node<KeyType,ValueType>(key, value);
+        insert_node(node, ind, table);
+        if(static_cast<double>(_size)/_capacity > fill_factor){
             _capacity *= 2;
             _size = 0;
             std::vector<Node<KeyType, ValueType>*> newtable(_capacity);
@@ -50,9 +58,6 @@ public:
             }
             table = newtable;
         }
-        size_t ind = hash(key) % _capacity;
-        Node<KeyType, ValueType>* node = new Node<KeyType,ValueType>(key, value);
-        insert_node(node, ind, table);
     }
     ValueType *find(KeyType key_){
         size_t ind = hash(key_) % _capacity;
