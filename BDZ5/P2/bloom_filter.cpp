@@ -17,7 +17,8 @@ void BloomFilter::add(const std::string & str) {
 bool BloomFilter::verify(const std::string &str) {
     bool f = true;
     for(size_t i = 0; i< _hashes; ++i){
-        f = f && _filter[_get_hash(i, str)];
+        // f &= _filter[_get_hash(i, str)]; не заходило
+        f = f && _filter[_get_hash(i, str)]; // зашло
     }
     if(f && !_raw_set.count(str))
         ++false_positive_cnt;
