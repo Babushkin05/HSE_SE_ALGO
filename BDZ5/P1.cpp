@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-#include <forward_list>
 
 // Элемент хеш-таблицы - список объектов с одним хешем
 template <class KeyType, class ValueType>
@@ -23,8 +22,6 @@ public:
         table(std::vector<Node<KeyType, ValueType>*>(capacity_)) {
             if( factor_ <= 0 || factor_ > 1)
                 fill_factor = 0.5;
-            if(_capacity == 0)
-                _capacity = 1;
         }
 
     ~HashTable(){
@@ -39,20 +36,27 @@ public:
     }
 
     void insert(KeyType key, ValueType value){
-        size_t ind = hash(key) % _capacity;
-        Node<KeyType, ValueType>* node = new Node<KeyType,ValueType>(key, value);
-        insert_node(node, ind, table);
+        ValueType* val = find(key);
+        if(val!=nullptr){
+            *val = value;
+        }
+        else{
+            Node<KeyType,ValueType>* node = new Node<KeyType,ValueType>(key, value);
+            size_t ind  = hash(node->key) % _capacity;
+            node->next = table[ind];
+            table[ind] = node;
+            ++_size;
+        }
         if(static_cast<double>(_size)/_capacity > fill_factor){
             _capacity *= 2;
-            _size = 0;
-            std::vector<Node<KeyType, ValueType>*> newtable(_capacity);
+            std::vector<Node<KeyType, ValueType>*> newtable(_capacity, nullptr);
             for(size_t i = 0; i < _capacity/2; ++i){
                 Node<KeyType,ValueType>* node = table[i];
                 while(node != nullptr){
                     Node<KeyType,ValueType>* nxt = node->next;
-                    node->next = nullptr;
                     size_t ind  = hash(node->key) % _capacity;
-                    insert_node(node, ind, newtable);
+                    node->next = newtable[ind];
+                    newtable[ind] = node;
                     node = nxt;
                 }
             }
@@ -118,28 +122,4 @@ private:
     double fill_factor;
     Func hash;
     std::vector<Node<KeyType, ValueType>*> table;
-    void insert_node(Node<KeyType,ValueType>* node, size_t ind, std::vector<Node<KeyType, ValueType>*> &insertion_table){
-        Node<KeyType,ValueType>* root = insertion_table[ind];
-        if(root == nullptr){
-            insertion_table[ind] = node;
-            ++_size;
-        }
-        else{
-            if(root->key == node->key){
-                root->value = node->value;
-                delete node;
-                return;
-            }
-            while(root->next !=nullptr){
-                if(root->key == node->key){
-                    root->value = node->value;
-                    delete node;
-                    return;
-                }
-                root = root->next;
-            }
-            root->next = node;
-            ++_size;
-        }
-    }
 };
