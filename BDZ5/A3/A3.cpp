@@ -35,7 +35,10 @@ void coutvec(std::vector<std::string> &v){
 }
 
 int main(){
-    std::vector<std::string> v = allnulls(2);
-    coutvec(v);
+    for(size_t p = 0; p <= 31; ++p){
+        std::cout<<p<<" : ";
+        std::vector<std::string> v = allnulls(p);
+        coutvec(v);
+    }
     return 0;
 }
