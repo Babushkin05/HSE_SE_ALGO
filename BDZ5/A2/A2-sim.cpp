@@ -29,18 +29,21 @@ void insert_to_table(int key, std::vector<int> &table, bool iscubo){
             ind = hash1(key, i) % table.size();
         }
         ++i;
+        //if(table[ind] != 0 && table[ind] != key)
+        //    std::cout<<table[ind]<<' '<<key<<' '<<iscubo<<'\n';
     }
     table[ind] = key;
+
 }
 
 int main(){
-    size_t M = 16;
+    size_t M = 32;
     std::vector<int> v1(M, 0);
     std::vector<int> v2(M, 0);
 
-    std::vector<int> keys{1,3,2,4,2,3,1,2,3,2};
+    std::vector<int> keys{1,3,2,4,2,3,1,2,3,2,4,3,2,3,1};
 
-    for(size_t i = 0; i < 10; ++i){
+    for(size_t i = 0; i < keys.size(); ++i){
         insert_to_table(keys[i], v1, false);
         insert_to_table(keys[i], v2, true);
     }
