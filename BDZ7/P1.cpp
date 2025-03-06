@@ -7,7 +7,7 @@ using namespace std;
 
 class Graph {
     int V;
-    vector<vector<int>> adjMatrix; 
+    vector<vector<long long>> adjMatrix;
 
     bool bfs(int s, int t, vector<int>& parent) {
         vector<bool> visited(V, false);
@@ -31,22 +31,22 @@ class Graph {
                 }
             }
         }
-        return false; 
+        return false;
     }
 
 public:
-    Graph(int V) : V(V), adjMatrix(V, vector<int>(V, 0)) {}
+    Graph(int V) : V(V), adjMatrix(V, vector<long long>(V, 0)) {}
 
-    void addEdge(int u, int v, int capacity) {
+    void addEdge(int u, int v, long long capacity) {
         adjMatrix[u][v] = capacity;
     }
 
-    int fordFulkerson(int source, int sink) {
-        vector<int> parent(V); 
-        int maxFlow = 0; 
+    long long fordFulkerson(int source, int sink) {
+        vector<int> parent(V);
+        long long maxFlow = 0;
 
         while (bfs(source, sink, parent)) {
-            int pathFlow = INT_MAX;
+            long long pathFlow = LLONG_MAX; 
             for (int v = sink; v != source; v = parent[v]) {
                 int u = parent[v];
                 pathFlow = min(pathFlow, adjMatrix[u][v]);
@@ -54,7 +54,7 @@ public:
 
             for (int v = sink; v != source; v = parent[v]) {
                 int u = parent[v];
-                adjMatrix[u][v] -= pathFlow; 
+                adjMatrix[u][v] -= pathFlow;
                 adjMatrix[v][u] += pathFlow;
             }
 
@@ -66,16 +66,17 @@ public:
 };
 
 int main() {
-    int n,k;
-    std::cin>>n>>k;
+    int n, k;
+    cin >> n >> k;
     Graph g(n);
 
-    for(size_t i = 0; i < n; ++i){
-        int a,b,c;
-        std::cin>>a>>b>>c;
-        g.addEdge(a,b,c);
+    for (int i = 0; i < k; ++i) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        g.addEdge(a - 1, b - 1, c);
     }
-    cout <<  g.fordFulkerson(0, n - 1) << endl;
+
+    cout << g.fordFulkerson(0, n - 1) << endl;
 
     return 0;
 }
