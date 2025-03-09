@@ -68,7 +68,7 @@ public:
     }
 };
 
-enum Vertex {
+enum Nodes {
     S,  
     A,  
     B,  
@@ -95,12 +95,12 @@ int main() {
     network.addEdge(B, E, 25); 
     network.addEdge(B, C, 10); 
 
-    network.addEdge(C, T, 5); 
+    network.addEdge(C, T, 3); 
 
     network.addEdge(D, E, 20); 
 
     network.addEdge(E, G, 5); 
-    network.addEdge(E, F, 30); 
+    network.addEdge(E, F, 15); 
 
     network.addEdge(F, I, 15);
     network.addEdge(F, T, 15); 
@@ -112,12 +112,7 @@ int main() {
 
     network.addEdge(I, T, 10); 
 
-    int source = S; 
-    int sink = T;  
-
-    long long maxFlow = network.dinic(source, sink);
-
-    cout << "Max Flow: " << maxFlow << endl;
+    cout << "Max Flow: " << network.dinic(S, T) << endl;
 
     return 0;
 }
