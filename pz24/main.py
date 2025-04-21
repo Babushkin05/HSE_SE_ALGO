@@ -54,7 +54,7 @@ def prefix_to_z(pi):
 
 str1 = "abacabadava"
 str2 = "vovavov"
-str3 = "babubabu"
+str3 = "babubabush"
 
 data = [str1, str2, str3]
 
