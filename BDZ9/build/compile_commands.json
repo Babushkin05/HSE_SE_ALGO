@@ -1,0 +1,56 @@
+[
+{
+  "directory": "/Users/vovababuskin/Documents/study/Algo/BDZ9/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-14 -I/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/StringSortProject.dir/src/StringGenerator.cpp.o -c /Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/StringGenerator.cpp",
+  "file": "/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/StringGenerator.cpp",
+  "output": "CMakeFiles/StringSortProject.dir/src/StringGenerator.cpp.o"
+},
+{
+  "directory": "/Users/vovababuskin/Documents/study/Algo/BDZ9/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-14 -I/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/StringSortProject.dir/src/StringSortTester.cpp.o -c /Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/StringSortTester.cpp",
+  "file": "/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/StringSortTester.cpp",
+  "output": "CMakeFiles/StringSortProject.dir/src/StringSortTester.cpp.o"
+},
+{
+  "directory": "/Users/vovababuskin/Documents/study/Algo/BDZ9/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-14 -I/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/StringSortProject.dir/src/algorithms/MSDRadixSort.cpp.o -c /Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/MSDRadixSort.cpp",
+  "file": "/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/MSDRadixSort.cpp",
+  "output": "CMakeFiles/StringSortProject.dir/src/algorithms/MSDRadixSort.cpp.o"
+},
+{
+  "directory": "/Users/vovababuskin/Documents/study/Algo/BDZ9/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-14 -I/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/StringSortProject.dir/src/algorithms/MSDRadixSortWithQuick.cpp.o -c /Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/MSDRadixSortWithQuick.cpp",
+  "file": "/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/MSDRadixSortWithQuick.cpp",
+  "output": "CMakeFiles/StringSortProject.dir/src/algorithms/MSDRadixSortWithQuick.cpp.o"
+},
+{
+  "directory": "/Users/vovababuskin/Documents/study/Algo/BDZ9/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-14 -I/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/StringSortProject.dir/src/algorithms/MergeSort.cpp.o -c /Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/MergeSort.cpp",
+  "file": "/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/MergeSort.cpp",
+  "output": "CMakeFiles/StringSortProject.dir/src/algorithms/MergeSort.cpp.o"
+},
+{
+  "directory": "/Users/vovababuskin/Documents/study/Algo/BDZ9/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-14 -I/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/StringSortProject.dir/src/algorithms/QuickSort.cpp.o -c /Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/QuickSort.cpp",
+  "file": "/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/QuickSort.cpp",
+  "output": "CMakeFiles/StringSortProject.dir/src/algorithms/QuickSort.cpp.o"
+},
+{
+  "directory": "/Users/vovababuskin/Documents/study/Algo/BDZ9/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-14 -I/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/StringSortProject.dir/src/algorithms/StringMergeSort.cpp.o -c /Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/StringMergeSort.cpp",
+  "file": "/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/StringMergeSort.cpp",
+  "output": "CMakeFiles/StringSortProject.dir/src/algorithms/StringMergeSort.cpp.o"
+},
+{
+  "directory": "/Users/vovababuskin/Documents/study/Algo/BDZ9/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-14 -I/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/StringSortProject.dir/src/algorithms/TernaryStringQuickSort.cpp.o -c /Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/TernaryStringQuickSort.cpp",
+  "file": "/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/algorithms/TernaryStringQuickSort.cpp",
+  "output": "CMakeFiles/StringSortProject.dir/src/algorithms/TernaryStringQuickSort.cpp.o"
+},
+{
+  "directory": "/Users/vovababuskin/Documents/study/Algo/BDZ9/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-14 -I/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/StringSortProject.dir/src/main.cpp.o -c /Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/main.cpp",
+  "file": "/Users/vovababuskin/Documents/study/Algo/BDZ9/A1/src/main.cpp",
+  "output": "CMakeFiles/StringSortProject.dir/src/main.cpp.o"
+}
+]
