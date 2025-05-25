@@ -8,6 +8,10 @@
 
 [A1q.cpp](https://github.com/Babushkin05/HSE_SE_ALGO/blob/main/BDZ9/A1q.cpp) - 321295261
 
+[A1r.cpp](https://github.com/Babushkin05/HSE_SE_ALGO/blob/main/BDZ9/A1r.cpp) - 321297218
+
+[A1rq.cpp](https://github.com/Babushkin05/HSE_SE_ALGO/blob/main/BDZ9/A1rq.cpp)  - 321297322
+
 ## анализ
 
 я решил собрать прямо проект на c++ — с делением на хедеры и реализацию, разделить в отдельные директории, написать для них CMakeLists, чтобы максимально просто было собирать
