@@ -4,7 +4,9 @@
 
 ## решения на cf:
 
-[A1m.cpp]() - 321294819
+[A1m.cpp](https://github.com/Babushkin05/HSE_SE_ALGO/blob/main/BDZ9/A1m.cpp) - 321294819
+
+[A1q.cpp](https://github.com/Babushkin05/HSE_SE_ALGO/blob/main/BDZ9/A1q.cpp) - 321295261
 
 ## анализ
 
